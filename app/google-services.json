@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "27087087206",
+    "project_id": "mecateknik-7f91f",
+    "storage_bucket": "mecateknik-7f91f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27087087206:android:b0c779dd30fc82adc7efa7",
+        "android_client_info": {
+          "package_name": "com.example.mecateknik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASvpYpab99j-3N7vU9pEsT8RA7NWfjwEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
