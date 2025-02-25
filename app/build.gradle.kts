@@ -1,7 +1,11 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -36,7 +40,17 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
+
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/NOTICE.md")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/LICENSE-notice.md")
+    }
+
 }
 
 dependencies {
@@ -52,8 +66,17 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.runner)
     testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.jupiter)
+    ksp(libs.androidx.room.compiler)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.intents)
+
 
 }

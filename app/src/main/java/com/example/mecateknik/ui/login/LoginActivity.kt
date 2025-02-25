@@ -2,6 +2,7 @@ package com.example.mecateknik.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -23,6 +24,13 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        if (auth.currentUser != null) {
+            Log.d("LoginActivity", "✅ Utilisateur déjà connecté : ${auth.currentUser?.email}")
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
+
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
@@ -43,12 +51,13 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    Log.d("LoginActivity", "✅ Connexion réussie, ouverture de MainActivity")
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(this, "Erreur de connexion : ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("LoginActivity", "❌ Erreur de connexion : ${task.exception?.message}")
+                    Toast.makeText(this, "Erreur de connexion", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 }
-
