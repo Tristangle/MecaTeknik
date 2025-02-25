@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.mecateknik.R
 import com.example.mecateknik.databinding.FragmentVehicleBinding
 import com.example.mecateknik.db.AppDatabase
 import com.example.mecateknik.viewmodel.VehicleViewModel
@@ -64,16 +66,9 @@ class VehicleFragment : Fragment() {
 
         // 🚀 Button Click → Adds a car & updates UI
         binding.btnAddCar.setOnClickListener {
-            vehicleViewModel.addCarToUser(
-                firebaseUid = firebaseUid,
-                brand = "Toyota",
-                model = "Supra",
-                year = 2023,
-                engineType = "Hybrid",
-                specification = "Coupe",
-                countryOrigin = "JP"
-            )
+            findNavController().navigate(R.id.action_vehicleFragment_to_addCarFragment)
         }
+
 
         // 🔄 Fetch user's cars on fragment start
         vehicleViewModel.getCarsByUser(firebaseUid)

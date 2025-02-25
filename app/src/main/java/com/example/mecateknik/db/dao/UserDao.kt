@@ -11,6 +11,10 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE firebase_uid = :firebaseUid")
     suspend fun getUserByFirebaseId(firebaseUid: String): UserEntity?
 
+    @Query("SELECT * FROM users")
+    suspend fun getAllUsers(): List<UserEntity>
+
+
     @Transaction
     @Query("SELECT * FROM users WHERE firebase_uid = :firebaseUid")
     suspend fun getUserWithCars(firebaseUid: String): UserWithCars

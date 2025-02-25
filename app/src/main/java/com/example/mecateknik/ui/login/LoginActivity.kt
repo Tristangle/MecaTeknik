@@ -7,9 +7,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.mecateknik.MainActivity
 import com.example.mecateknik.R
+import com.example.mecateknik.db.AppDatabase
+import com.example.mecateknik.db.entities.UserEntity
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -47,10 +52,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun signInUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    val firebaseUser = FirebaseAuth.getInstance().currentUser
+                    if (firebaseUser != null) {
+                        saveUserToLocalDB(firebaseUser.uid, email)
+                    }
+
                     Log.d("LoginActivity", "✅ Connexion réussie, ouverture de MainActivity")
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
@@ -60,4 +71,24 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+    private fun saveUserToLocalDB(userUid: String, email: String) {
+        lifecycleScope.launch(Dispatchers.IO) { // 🚀 Lancer sur un thread en arrière-plan
+            val db = AppDatabase.getDatabase(applicationContext)
+            val existingUser = db.userDao().getUserByFirebaseId(userUid)
+
+            if (existingUser == null) {
+                val newUser = UserEntity(
+                    firebaseUid = userUid,
+                    email = email,
+                    name = "Unknown" // ⚠️ Modifier si besoin
+                )
+                db.userDao().insertUser(newUser)
+                Log.d("LoginActivity", "✅ Utilisateur ajouté en local : $userUid")
+            } else {
+                Log.d("LoginActivity", "ℹ️ Utilisateur déjà en local")
+            }
+        }
+    }
+
+
 }

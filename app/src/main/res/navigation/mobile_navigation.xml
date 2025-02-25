@@ -20,7 +20,12 @@
         android:id="@+id/navigation_vehicle"
         android:name="com.example.mecateknik.ui.vehicle.VehicleFragment"
         android:label="@string/title_vehicle"
-        tools:layout="@layout/fragment_vehicle" />
+        tools:layout="@layout/fragment_vehicle">
+
+        <action
+            android:id="@+id/action_vehicleFragment_to_addCarFragment"
+            app:destination="@id/addCarFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -28,4 +33,9 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
+    <fragment
+        android:id="@+id/addCarFragment"
+        android:name="com.example.mecateknik.ui.vehicle.addCar.AddCarFragment"
+        android:label="Add Car"
+        tools:layout="@layout/fragment_add_car" />
 </navigation>
