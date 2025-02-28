@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.vehicle.VehicleFragment">
 
-        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -25,19 +24,15 @@
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Informations du véhicule -->
-        <TextView
-            android:id="@+id/tvVehicleInfo"
-            android:layout_width="wrap_content"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.vehicleInfo}"
-            android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            tools:text="Toyota Supra (2023)" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
 
         <!-- Bouton pour ajouter un véhicule -->
         <Button
@@ -45,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_car"
-            app:layout_constraintTop_toBottomOf="@id/tvVehicleInfo"
+            app:layout_constraintTop_toBottomOf="@id/viewPager"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp" />

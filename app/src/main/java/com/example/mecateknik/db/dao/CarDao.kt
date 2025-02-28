@@ -4,7 +4,7 @@ import com.example.mecateknik.db.entities.CarEntity
 
 @Dao
 interface CarDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCar(car: CarEntity): Long
 
     @Query("SELECT * FROM cars WHERE user_uid = :userUid")

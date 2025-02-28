@@ -1,6 +1,7 @@
 package com.example.mecateknik.ui.vehicle.addCar
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,22 +64,22 @@ class AddCarFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             val db = AppDatabase.getDatabase(requireContext())
 
-            // 🔍 Vérifie les utilisateurs existants
-            val allUsers = db.userDao().getAllUsers()
-            println("📌 Utilisateurs enregistrés en base : ${allUsers.map { it.firebaseUid }}")
-
             val existingUser = db.userDao().getUserByFirebaseId(user.uid)
-
             if (existingUser == null) {
                 launch(Dispatchers.Main) {
                     Toast.makeText(requireContext(), "User not found in local database", Toast.LENGTH_SHORT).show()
-                    println("⚠️ Utilisateur non trouvé avec UID : ${user.uid}")
                 }
                 return@launch
             }
 
-            // ✅ L'utilisateur existe, on ajoute la voiture
+            // Vérifie si la voiture existe déjà (facultatif si UUID est unique)
+            val userWithCars = db.userDao().getUserWithCars(user.uid)
+            Log.d("AddCar", "User ${user.uid} has ${userWithCars.cars.size} cars before insert")
+
             db.carDao().insertCar(newCar)
+
+            val updatedUserWithCars = db.userDao().getUserWithCars(user.uid)
+            Log.d("AddCar", "User ${user.uid} has ${updatedUserWithCars.cars.size} cars after insert")
 
             launch(Dispatchers.Main) {
                 Toast.makeText(requireContext(), "Car added successfully", Toast.LENGTH_SHORT).show()
