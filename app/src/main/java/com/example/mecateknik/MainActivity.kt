@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_vehicle
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.vehicleFragment
             )
         )
 
@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            Log.d("NavDebug", "Navigated to ${destination.label}")
+        }
+
 
         Log.d("MainActivity", "✅ NavController et NavigationView configurés avec succès")
     }

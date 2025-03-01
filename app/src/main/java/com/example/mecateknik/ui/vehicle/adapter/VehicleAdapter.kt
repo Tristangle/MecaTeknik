@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mecateknik.databinding.ItemVehicleCardBinding
 import com.example.mecateknik.db.entities.CarEntity
 
-class VehicleAdapter(private val onCarSelected: (CarEntity) -> Unit) :
-    ListAdapter<CarEntity, VehicleAdapter.VehicleViewHolder>(VehicleDiffCallback()) {
+class VehicleAdapter(
+    private val onCarSelected: (CarEntity) -> Unit,
+    private val onDeleteClick: (CarEntity) -> Unit,
+    private val onMaintenanceClick: (CarEntity) -> Unit
+) : ListAdapter<CarEntity, VehicleAdapter.VehicleViewHolder>(VehicleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder {
         val binding = ItemVehicleCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,10 +23,19 @@ class VehicleAdapter(private val onCarSelected: (CarEntity) -> Unit) :
     override fun onBindViewHolder(holder: VehicleViewHolder, position: Int) {
         val car = getItem(position)
         holder.bind(car)
+
+        // Gérer le clic sur la carte pour sélectionner le véhicule
         holder.itemView.setOnClickListener { onCarSelected(car) }
+
+        // Gérer le clic sur le bouton de suppression
+        holder.binding.btnDeleteCar.setOnClickListener { onDeleteClick(car) }
+
+        // Gérer le clic sur le bouton du carnet d’entretien
+        holder.binding.btnMaintenanceBook.setOnClickListener { onMaintenanceClick(car) }
+
     }
 
-    class VehicleViewHolder(private val binding: ItemVehicleCardBinding) :
+    class VehicleViewHolder(val binding: ItemVehicleCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")

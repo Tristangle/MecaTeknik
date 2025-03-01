@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/holo_orange_light"
+    tools:context=".ui.vehicle.AddMaintenanceRecordFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nouvelle maintenance"
+        android:textSize="20sp"
+        android:layout_marginBottom="24dp"/>
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description" />
+
+    <EditText
+        android:id="@+id/etKilometers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kilométrage"
+        android:inputType="number"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etGarage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom du garage"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnValidate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>

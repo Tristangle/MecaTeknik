@@ -14,7 +14,7 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_vehicle"
+        android:id="@+id/vehicleFragment"
         android:icon="@drawable/ic_directions_car_24dp"
         android:title="@string/title_vehicle" />
 

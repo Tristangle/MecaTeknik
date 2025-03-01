@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_green_light"
+    tools:context=".ui.vehicle.MaintenanceFragment">
+
+    <!-- Titre de test -->
+    <TextView
+        android:id="@+id/tvTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HELLO FROM MAINTENANCE"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="72dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Message si liste vide -->
+    <TextView
+        android:id="@+id/tvNoRecords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aucun record pour le moment"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tvTest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
+
+    <!-- RecyclerView pour afficher les enregistrements de maintenance -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tvNoRecords"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddMaintenance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/item_maintenance" />
+
+    <!-- Bouton pour ajouter une maintenance -->
+    <Button
+        android:id="@+id/btnAddMaintenance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter une maintenance"
+        android:layout_marginBottom="80dp"
+    android:layout_marginEnd="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

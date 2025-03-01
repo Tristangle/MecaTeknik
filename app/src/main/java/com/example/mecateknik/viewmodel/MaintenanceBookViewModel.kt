@@ -1,6 +1,5 @@
 package com.example.mecateknik.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.mecateknik.db.dao.MaintenanceBookDao
 import com.example.mecateknik.db.entities.MaintenanceBookEntity
@@ -25,7 +24,8 @@ class MaintenanceBookViewModel(private val maintenanceBookDao: MaintenanceBookDa
         }
     }
 
-    private fun loadMaintenanceRecords(carId: String) {
+    // Rendre cette fonction publique
+    fun loadMaintenanceRecords(carId: String) {
         viewModelScope.launch {
             _maintenanceRecords.postValue(maintenanceBookDao.getMaintenanceForCar(carId))
         }

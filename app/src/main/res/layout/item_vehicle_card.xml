@@ -4,9 +4,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <!-- Texte pour afficher le modèle et l'année du véhicule -->
+    <!-- Bouton de suppression (Haut gauche) -->
+    <ImageButton
+        android:id="@+id/btnDeleteCar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="Supprimer le véhicule"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp"/>
+
+    <!-- Nom du véhicule -->
     <TextView
         android:id="@+id/tvCarName"
         android:layout_width="wrap_content"
@@ -14,10 +27,11 @@
         android:text="Toyota Supra"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnDeleteCar"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"/>
+        android:layout_marginTop="8dp"/>
 
+    <!-- Année du véhicule -->
     <TextView
         android:id="@+id/tvCarYear"
         android:layout_width="wrap_content"
@@ -26,7 +40,15 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/tvCarName"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="4dp"/>
 
+    <!-- Bouton pour accéder au carnet d'entretien (Bas droite) -->
+    <Button
+        android:id="@+id/btnMaintenanceBook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carnet d'entretien"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

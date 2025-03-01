@@ -1,41 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/navigation_home">
 
+    <!-- Home Fragment -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.mecateknik.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
+    <!-- Dashboard Fragment -->
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.mecateknik.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
+    <!-- Vehicle Fragment -->
     <fragment
-        android:id="@+id/navigation_vehicle"
+        android:id="@+id/vehicleFragment"
         android:name="com.example.mecateknik.ui.vehicle.VehicleFragment"
         android:label="@string/title_vehicle"
         tools:layout="@layout/fragment_vehicle">
 
+        <!-- Action vers AddCarFragment -->
         <action
             android:id="@+id/action_vehicleFragment_to_addCarFragment"
             app:destination="@id/addCarFragment" />
+
+        <!-- Action vers MaintenanceFragmentx avec passage d'un argument "carId" -->
+        <action
+            android:id="@+id/action_vehicleFragment_to_maintenanceFragment"
+            app:destination="@id/maintenanceFragment">
+            <argument
+                android:name="carId"
+                app:argType="string"
+                android:defaultValue=""/>
+        </action>
     </fragment>
 
+    <!-- Notifications Fragment -->
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.mecateknik.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
+    <!-- Add Car Fragment -->
     <fragment
         android:id="@+id/addCarFragment"
         android:name="com.example.mecateknik.ui.vehicle.addCar.AddCarFragment"
         android:label="Add Car"
         tools:layout="@layout/fragment_add_car" />
+
+    <fragment
+        android:id="@+id/maintenanceFragment"
+        android:name="com.example.mecateknik.ui.vehicle.MaintenanceFragment"
+        android:label="Maintenance"
+        tools:layout="@layout/fragment_maintenance">
+
+        <!-- Argument pour récupérer l'ID de la voiture -->
+        <argument
+            android:name="carId"
+            app:argType="string"
+            android:defaultValue="" />
+
+        <!-- Action vers le nouveau fragment de saisie -->
+        <action
+            android:id="@+id/action_maintenanceFragment_to_addMaintenanceRecordFragment"
+            app:destination="@id/addMaintenanceRecordFragment">
+            <!-- On repasse carId si on veut le transmettre -->
+            <argument
+                android:name="carId"
+                app:argType="string"
+                android:defaultValue="" />
+        </action>
+    </fragment>
+
+    <!-- Nouveau fragment pour saisir la maintenance -->
+    <fragment
+        android:id="@+id/addMaintenanceRecordFragment"
+        android:name="com.example.mecateknik.ui.vehicle.AddMaintenanceRecordFragment"
+        android:label="Nouvelle Maintenance"
+        tools:layout="@layout/fragment_add_maintenance_record">
+
+        <!-- Même argument si tu veux passer carId -->
+        <argument
+            android:name="carId"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
 </navigation>

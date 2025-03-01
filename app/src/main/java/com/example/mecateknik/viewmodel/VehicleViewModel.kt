@@ -51,4 +51,13 @@ class VehicleViewModel(private val userDao: UserDao, private val carDao: CarDao)
             _userCars.postValue(cars) // 🔥 Updates LiveData with the car list
         }
     }
+
+    fun deleteCar(car: CarEntity) {
+        viewModelScope.launch {
+            carDao.deleteCar(car)
+            Log.d("VehicleViewModel", "❌ Voiture supprimée : ${car.brand} ${car.model}")
+            getCarsByUser(car.userUid) // 🔄 Rafraîchir la liste après suppression
+        }
+    }
+
 }
