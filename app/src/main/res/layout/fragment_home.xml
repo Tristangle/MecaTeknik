@@ -8,28 +8,16 @@
     tools:context=".ui.home.HomeFragment">
 
 
-    <!-- Bouton Rechercher pièces auto -->
-    <Button
-        android:id="@+id/btnSearchAutoParts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rechercher_pi_ces_auto"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginBottom="32dp"/>
-
-
-    <!-- Bouton Déconnexion -->
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deconnection"
-        app:layout_constraintTop_toBottomOf="@id/btnSearchAutoParts"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="200dp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

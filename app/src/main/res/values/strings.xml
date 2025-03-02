@@ -20,6 +20,7 @@
     <string name="nom_invalide">Nom invalide\n</string>
     <string name="inscription_reussie">Inscription réussie\n</string>
     <string name="erreur_inscription">Erreur d\'inscription\n</string>
+    <string name="title_cart">Panier</string>
     <string name="bienvenue_sur_mecateknik">Bienvenue sur MecaTeknik</string>
     <string name="deconnection">Déconnection</string>
     <string name="rechercher_pi_ces_auto">Rechercher pièces auto</string>

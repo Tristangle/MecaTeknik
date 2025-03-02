@@ -30,7 +30,6 @@ interface AutoPartDao {
     """)
     suspend fun getPartsByConfiguration(configuration: String): List<AutoPartEntity>
 
-
     @Query("""
         SELECT * FROM auto_parts 
         WHERE associated_models LIKE '%' || :configuration || '%' 
@@ -39,12 +38,18 @@ interface AutoPartDao {
     suspend fun getPartsByConfigurationFiltered(configuration: String, partName: String): List<AutoPartEntity>
 
     @Query("""
-    SELECT * FROM auto_parts 
-    WHERE associated_models LIKE '%' || :configuration || '%'
-""")
+        SELECT * FROM auto_parts 
+        WHERE associated_models LIKE '%' || :configuration || '%'
+    """)
     suspend fun getPartsByCarModel(configuration: String): List<AutoPartEntity>
 
-
+    /**
+     * Met à jour le stock d'une pièce auto.
+     * @param reference Référence unique de la pièce.
+     * @param newQuantity Nouvelle quantité en stock.
+     */
+    @Query("UPDATE auto_parts SET quantity_in_stock = :newQuantity WHERE reference = :reference")
+    suspend fun updateStock(reference: String, newQuantity: Int)
 
     /**
      * Supprime une pièce auto en base de données.

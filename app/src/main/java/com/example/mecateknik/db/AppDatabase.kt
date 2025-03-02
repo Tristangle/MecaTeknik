@@ -10,8 +10,10 @@ import com.example.mecateknik.db.dao.CarDao
 import com.example.mecateknik.db.dao.MaintenanceBookDao
 import com.example.mecateknik.db.dao.UserDao
 import com.example.mecateknik.db.converters.CarModelConverter
+import com.example.mecateknik.db.dao.CartDao
 import com.example.mecateknik.db.entities.AutoPartEntity
 import com.example.mecateknik.db.entities.CarEntity
+import com.example.mecateknik.db.entities.CartItemEntity
 import com.example.mecateknik.db.entities.MaintenanceBookEntity
 import com.example.mecateknik.db.entities.UserEntity
 
@@ -20,9 +22,10 @@ import com.example.mecateknik.db.entities.UserEntity
         UserEntity::class,
         CarEntity::class,
         MaintenanceBookEntity::class,
-        AutoPartEntity::class
+        AutoPartEntity::class,
+        CartItemEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(CarModelConverter::class)
@@ -31,6 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun carDao(): CarDao
     abstract fun maintenanceBookDao(): MaintenanceBookDao
     abstract fun autoPartDao(): AutoPartDao
+    abstract fun cartDao(): CartDao
 
     companion object {
         @Volatile

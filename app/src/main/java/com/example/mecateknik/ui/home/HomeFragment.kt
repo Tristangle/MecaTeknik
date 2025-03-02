@@ -28,12 +28,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Nouveau bouton : lancer l'Activity de recherche de pièces auto
-        binding.btnSearchAutoParts.setOnClickListener {
-            val intent = Intent(requireContext(), AutoPartSearchActivity::class.java)
-            startActivity(intent)
-        }
-
         binding.btnLogout.setOnClickListener {
             logoutUser()
         }
