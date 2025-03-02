@@ -79,6 +79,14 @@ dependencies {
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
     implementation(libs.core.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.koin.core)
+    implementation(libs.glide)
+    implementation(libs.koin.android)
+
+
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.runner)
     testImplementation(libs.junit)
