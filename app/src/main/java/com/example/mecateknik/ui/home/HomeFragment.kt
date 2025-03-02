@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mecateknik.databinding.FragmentHomeBinding
 import com.example.mecateknik.ui.login.LoginActivity
+import com.example.mecateknik.ui.autoparts.AutoPartSearchActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class HomeFragment : Fragment() {
@@ -23,15 +24,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this)[HomeViewModel::class.java]
-
+        val homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            binding.textHome.text = it
+        // Nouveau bouton : lancer l'Activity de recherche de pièces auto
+        binding.btnSearchAutoParts.setOnClickListener {
+            val intent = Intent(requireContext(), AutoPartSearchActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnLogout.setOnClickListener {
