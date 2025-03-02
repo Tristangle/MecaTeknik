@@ -10,4 +10,16 @@
     <string name="add_car">Add Car</string>
     <string name="title_vehicle">Vehicles</string>
     <string name="d_connexion">Déconnexion</string>
+    <string name="remplir_tous_champs">"Veuillez remplir tous les champs"</string>
+    <string name="erreur_connexion">Erreur de connexion</string>
+    <string name="utilisateur_inconnu">Utilisateur inconnu</string>
+    <string name="page_inscription">Page d\'inscription</string>
+    <string name="nom">Nom</string>
+    <string name="inscription">inscription\n</string>
+    <string name="inscription_en_cours">Inscription en cours\n</string>
+    <string name="email_invalide">email invalide\n</string>
+    <string name="mot_de_passe_invalide">Mot de passe invalide\n</string>
+    <string name="nom_invalide">Nom invalide\n</string>
+    <string name="inscription_reussie">Inscription réussie\n</string>
+    <string name="erreur_inscription">Erreur d\'inscription\n</string>
 </resources>
