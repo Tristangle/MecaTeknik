@@ -18,6 +18,9 @@
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.login.RegisterActivity" />
 
+        <!-- Déclaration de AutoPartSearchActivity -->
+        <activity android:name=".ui.autoparts.AutoPartSearchActivity" />
+
         <!-- Déclaration de MainActivity, activité de lancement -->
         <activity
             android:name=".MainActivity"
