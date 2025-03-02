@@ -87,4 +87,12 @@
             app:argType="string"
             android:defaultValue=""/>
     </fragment>
+
+    <!-- Forum Fragment (destination de premier niveau) -->
+    <fragment
+        android:id="@+id/navigation_forum"
+        android:name="com.example.mecateknik.ui.forum.ForumFragment"
+        android:label="Forum"
+        tools:layout="@layout/fragment_forum" />
+
 </navigation>
