@@ -11,8 +11,7 @@
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:hint="@string/email"
+        android:autofillHints="emailAddress"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="16dp" />
 
@@ -20,8 +19,7 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:hint="@string/mot_de_passe"
+        android:autofillHints="password"
         android:inputType="textPassword"
         android:layout_marginBottom="16dp" />
 
