@@ -30,8 +30,6 @@ class VehicleAdapter(
         // Gérer le clic sur le bouton de suppression
         holder.binding.btnDeleteCar.setOnClickListener { onDeleteClick(car) }
 
-        // Gérer le clic sur le bouton du carnet d’entretien
-        holder.binding.btnMaintenanceBook.setOnClickListener { onMaintenanceClick(car) }
 
     }
 

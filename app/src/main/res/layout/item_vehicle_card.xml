@@ -42,13 +42,4 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="4dp"/>
 
-    <!-- Bouton pour accéder au carnet d'entretien (Bas droite) -->
-    <Button
-        android:id="@+id/btnMaintenanceBook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Carnet d'entretien"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
