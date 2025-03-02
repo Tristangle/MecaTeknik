@@ -1,7 +1,6 @@
 package com.example.mecateknik.ui.vehicle.addCar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.mecateknik.databinding.FragmentAddCarBinding
 import com.example.mecateknik.db.AppDatabase
 import com.example.mecateknik.db.entities.CarEntity
+import com.example.mecateknik.utils.AutoPartGenerator
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -72,14 +72,11 @@ class AddCarFragment : Fragment() {
                 return@launch
             }
 
-            // Vérifie si la voiture existe déjà (facultatif si UUID est unique)
-            val userWithCars = db.userDao().getUserWithCars(user.uid)
-            Log.d("AddCar", "User ${user.uid} has ${userWithCars.cars.size} cars before insert")
-
+            // Insère la voiture en BD
             db.carDao().insertCar(newCar)
 
-            val updatedUserWithCars = db.userDao().getUserWithCars(user.uid)
-            Log.d("AddCar", "User ${user.uid} has ${updatedUserWithCars.cars.size} cars after insert")
+            // Intégration du générateur : créer 5 pièces auto pour la voiture ajoutée
+            AutoPartGenerator.generatePartsForCar(requireContext(), newCar)
 
             launch(Dispatchers.Main) {
                 Toast.makeText(requireContext(), "Car added successfully", Toast.LENGTH_SHORT).show()
@@ -87,8 +84,6 @@ class AddCarFragment : Fragment() {
             }
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
