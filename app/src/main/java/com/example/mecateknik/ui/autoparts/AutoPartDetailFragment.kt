@@ -1,5 +1,6 @@
 package com.example.mecateknik.ui.autoparts
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.mecateknik.api.YouTubeApi
 import com.example.mecateknik.databinding.FragmentAutoPartDetailBinding
 import com.example.mecateknik.db.AppDatabase
+import com.example.mecateknik.db.entities.CartItemEntity
 import com.example.mecateknik.utils.ApiKeyProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +26,8 @@ class AutoPartDetailFragment : Fragment() {
     private var _binding: FragmentAutoPartDetailBinding? = null
     private val binding get() = _binding!!
     private var partReference: String? = null
+    private var selectedQuantity: Int = 1
+    private var currentStock: Int = 0
 
     companion object {
         private const val TAG = "AutoPartDetailFragment"
@@ -43,11 +47,34 @@ class AutoPartDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 500 }
+
+        // Animation fade-in
+        val fadeIn = AlphaAnimation(0f, 1f)
+        fadeIn.duration = 500
         binding.detailContainer.startAnimation(fadeIn)
 
+        // Bouton de fermeture
         binding.btnClose.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        // Gestion des boutons de quantité
+        binding.btnDecrease.setOnClickListener {
+            if (selectedQuantity > 1) {
+                selectedQuantity--
+                binding.tvQuantity.text = selectedQuantity.toString()
+            }
+        }
+        binding.btnIncrease.setOnClickListener {
+            if (selectedQuantity < currentStock) {
+                selectedQuantity++
+                binding.tvQuantity.text = selectedQuantity.toString()
+            }
+        }
+
+        // Bouton "Ajouter au panier"
+        binding.btnAddToCart.setOnClickListener {
+            addToCart()
         }
 
         partReference?.let { ref ->
@@ -59,7 +86,7 @@ class AutoPartDetailFragment : Fragment() {
                 autoPart?.let { part ->
                     binding.textPartName.text = part.name
                     binding.textPartReference.text = "Référence : ${part.reference}"
-
+                    // Formatage des configurations en "Brand model (year)"
                     val formattedConfigs = part.associatedModels.joinToString(", ") { config ->
                         val tokens = config.split(";")
                         if (tokens.size >= 3) {
@@ -69,9 +96,12 @@ class AutoPartDetailFragment : Fragment() {
                         }
                     }
                     binding.textCompatibleModels.text = "Modèles compatibles : $formattedConfigs"
-                    binding.textPartPrice.text = "Prix : ${part.price} €"
+                    binding.textPartPrice.text = "Prix : ${String.format("%.2f", part.price)} €"
                     binding.textPartStock.text = "Stock : ${part.quantityInStock}"
+                    currentStock = part.quantityInStock
+                    binding.tvQuantity.text = selectedQuantity.toString()
 
+                    // Recherche vidéo via YouTube API
                     val configTokens = part.associatedModels.firstOrNull()?.split(";")
                     val modelForQuery = if (configTokens != null && configTokens.size >= 3) configTokens[1] else ""
                     val query = "Tuto installation ${part.name} $modelForQuery"
@@ -81,6 +111,48 @@ class AutoPartDetailFragment : Fragment() {
         }
     }
 
+    private fun addToCart() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val db = AppDatabase.getDatabase(requireContext())
+            val userUid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            // Récupérer tous les articles du panier pour cet utilisateur
+            val existingCartItems = db.cartDao().getCartItemsByUser(userUid)
+            // Filtrer l'article correspondant à cette pièce
+            val matchingItems = existingCartItems.filter { it.autoPartReference == partReference }
+            val currentCartQuantity = matchingItems.sumOf { it.quantity }
+            // Vérifier que la quantité totale (existante + celle à ajouter) ne dépasse pas le stock
+            if (currentCartQuantity + selectedQuantity > currentStock) {
+                withContext(Dispatchers.Main) {
+                    android.widget.Toast.makeText(
+                        requireContext(),
+                        "Pas assez de produit en stock",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                if (matchingItems.isNotEmpty()) {
+                    // Mettre à jour la quantité de l'article existant
+                    val existingItem = matchingItems.first()
+                    val updatedItem = existingItem.copy(quantity = existingItem.quantity + selectedQuantity)
+                    db.cartDao().updateCartItem(updatedItem)
+                } else {
+                    // Créer un nouvel article dans le panier
+                    val cartItem = CartItemEntity(
+                        userUid = userUid,
+                        autoPartReference = partReference ?: return@launch,
+                        quantity = selectedQuantity
+                    )
+                    db.cartDao().insertCartItem(cartItem)
+                }
+                withContext(Dispatchers.Main) {
+                    android.widget.Toast.makeText(requireContext(), "Article ajouté au panier", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
+    @Suppress("BlockingMethodInNonBlockingContext")
     private fun fetchYoutubeVideo(query: String) {
         lifecycleScope.launch {
             try {
