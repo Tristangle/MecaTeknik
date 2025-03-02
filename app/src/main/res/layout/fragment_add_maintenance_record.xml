@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/holo_orange_light"
     tools:context=".ui.vehicle.AddMaintenanceRecordFragment">
 
     <TextView
