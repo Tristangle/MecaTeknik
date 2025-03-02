@@ -24,6 +24,21 @@ interface AutoPartDao {
     @Query("SELECT * FROM auto_parts WHERE reference = :reference")
     suspend fun getPartByReference(reference: String): AutoPartEntity?
 
+    @Query("""
+        SELECT * FROM auto_parts 
+        WHERE associated_models LIKE '%' || :configuration || '%'
+    """)
+    suspend fun getPartsByConfiguration(configuration: String): List<AutoPartEntity>
+
+
+    @Query("""
+        SELECT * FROM auto_parts 
+        WHERE associated_models LIKE '%' || :configuration || '%' 
+        AND name LIKE :partName
+    """)
+    suspend fun getPartsByConfigurationFiltered(configuration: String, partName: String): List<AutoPartEntity>
+
+
     /**
      * Supprime une pièce auto en base de données.
      * @param part Pièce auto à supprimer.
