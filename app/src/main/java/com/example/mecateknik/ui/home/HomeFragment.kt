@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mecateknik.databinding.FragmentHomeBinding
 import com.example.mecateknik.ui.login.LoginActivity
-import com.example.mecateknik.ui.autoparts.AutoPartSearchActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class HomeFragment : Fragment() {
@@ -28,12 +27,21 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            binding.tvWelcome.text = "Bienvenue ${currentUser.displayName ?: "Utilisateur"}"
+            binding.tvEmail.text = "${currentUser.email}"
+        }
+
         binding.btnLogout.setOnClickListener {
             logoutUser()
         }
 
         return root
     }
+
 
     private fun logoutUser() {
         val auth = FirebaseAuth.getInstance()
