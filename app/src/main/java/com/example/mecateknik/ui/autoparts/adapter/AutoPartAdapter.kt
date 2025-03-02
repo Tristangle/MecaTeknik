@@ -10,8 +10,9 @@ import com.example.mecateknik.db.entities.AutoPartEntity
 
 /**
  * Adapter pour afficher les pièces auto sous forme de cards.
+ * Le callback onItemClick est déclenché lorsqu'un item est cliqué.
  */
-class AutoPartAdapter : RecyclerView.Adapter<AutoPartAdapter.AutoPartViewHolder>() {
+class AutoPartAdapter(private val onItemClick: (AutoPartEntity) -> Unit) : RecyclerView.Adapter<AutoPartAdapter.AutoPartViewHolder>() {
 
     private val autoParts = mutableListOf<AutoPartEntity>()
 
@@ -27,7 +28,9 @@ class AutoPartAdapter : RecyclerView.Adapter<AutoPartAdapter.AutoPartViewHolder>
     }
 
     override fun onBindViewHolder(holder: AutoPartViewHolder, position: Int) {
-        holder.bind(autoParts[position])
+        val part = autoParts[position]
+        holder.bind(part)
+        holder.itemView.setOnClickListener { onItemClick(part) }
     }
 
     override fun getItemCount(): Int = autoParts.size
@@ -40,9 +43,9 @@ class AutoPartAdapter : RecyclerView.Adapter<AutoPartAdapter.AutoPartViewHolder>
 
         fun bind(part: AutoPartEntity) {
             partName.text = part.name
-            partReference.text = part.reference
-            partPrice.text = "Prix: ${part.price} €"
-            partStock.text = "Stock: ${part.quantityInStock}"
+            partReference.text = "Référence : ${part.reference}"
+            partPrice.text = "Prix : ${part.price} €"
+            partStock.text = "Stock : ${part.quantityInStock}"
         }
     }
 }

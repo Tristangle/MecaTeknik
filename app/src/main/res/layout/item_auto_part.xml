@@ -18,35 +18,33 @@
             android:id="@+id/textPartName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Nom de la pièce"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:text="Nom de la pièce" />
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/textPartReference"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:text="Référence" />
+            android:text="Référence"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/textPartPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@android:color/holo_green_dark"
-            android:text="Prix" />
+            android:text="Prix"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_green_dark" />
 
         <TextView
             android:id="@+id/textPartStock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:text="Stock" />
-
+            android:text="Stock"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_blue_dark" />
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

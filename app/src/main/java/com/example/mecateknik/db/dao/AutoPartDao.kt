@@ -38,6 +38,13 @@ interface AutoPartDao {
     """)
     suspend fun getPartsByConfigurationFiltered(configuration: String, partName: String): List<AutoPartEntity>
 
+    @Query("""
+    SELECT * FROM auto_parts 
+    WHERE associated_models LIKE '%' || :configuration || '%'
+""")
+    suspend fun getPartsByCarModel(configuration: String): List<AutoPartEntity>
+
+
 
     /**
      * Supprime une pièce auto en base de données.

@@ -23,4 +23,10 @@
     <string name="bienvenue_sur_mecateknik">Bienvenue sur MecaTeknik</string>
     <string name="deconnection">Déconnection</string>
     <string name="rechercher_pi_ces_auto">Rechercher pièces auto</string>
+    <string name="fermer">Fermer</string>
+    <string name="reference">Référence :</string>
+    <string name="nom_de_la_piece">Nom de la pièce</string>
+    <string name="modeles_comp">Modèles compatibles :</string>
+    <string name="prix">Prix :</string>
+    <string name="stock">Stock :</string>
 </resources>

@@ -10,42 +10,74 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
-/**
- * Générateur automatique de pièces auto pour une voiture donnée.
- */
 object AutoPartGenerator {
 
     private const val TAG = "AutoPartGenerator"
 
-    // Liste de noms de pièces auto en français
+    // Liste étendue (~30 noms) de pièces auto en français
     private val frenchPartNames = listOf(
-        "Plaquettes de frein", "Kit d'embrayage", "Alternateur", "Batterie", "Bougie d'allumage",
-        "Courroie de distribution", "Filtre à huile", "Filtre à air", "Pompe à carburant", "Radiateur",
-        "Échappement", "Phare avant", "Feu arrière", "Amortisseur", "Pompe à eau",
-        "Démarreur", "Turbocompresseur", "Support moteur", "Balai d'essuie-glace", "Thermostat",
-        "Injecteur", "Joint de culasse", "Cardan", "Pompe de direction assistée", "Bobine d'allumage"
+        "Plaquettes de frein",
+        "Kit d'embrayage",
+        "Alternateur",
+        "Batterie",
+        "Bougie d'allumage",
+        "Courroie de distribution",
+        "Filtre à huile",
+        "Filtre à air",
+        "Pompe à carburant",
+        "Radiateur",
+        "Échappement",
+        "Phare avant",
+        "Feu arrière",
+        "Amortisseur",
+        "Pompe à eau",
+        "Démarreur",
+        "Turbocompresseur",
+        "Support moteur",
+        "Balai d'essuie-glace",
+        "Thermostat",
+        "Injecteur",
+        "Joint de culasse",
+        "Cardan",
+        "Pompe de direction assistée",
+        "Bobine d'allumage",
+        "Compresseur",
+        "Moteur de ventilation",
+        "Ventilateur de refroidissement",
+        "Capteur d'oxygène",
+        "Bouchon de radiateur"
     )
 
     /**
-     * Génère et insère 5 pièces auto pour la voiture donnée.
+     * Génère et insère 8 pièces auto pour la voiture donnée.
      * Chaque pièce est associée à l'ensemble {brand;model;year} de la voiture.
+     * Les noms générés sont uniques pour la voiture.
      */
     suspend fun generatePartsForCar(context: Context, car: CarEntity) {
         withContext(Dispatchers.IO) {
             val db = AppDatabase.getDatabase(context)
             val autoPartDao: AutoPartDao = db.autoPartDao()
 
+            // Récupérer les pièces déjà générées pour cette voiture (pour éviter les doublons)
+            val configuration = "${car.brand};${car.model};${car.year}"
+            val existingParts = autoPartDao.getPartsByCarModel(configuration)
+            val usedNames = existingParts.map { it.name }.toMutableSet()
+
             val partsToInsert = mutableListOf<AutoPartEntity>()
-            repeat(5) {
-                // Génération d'une référence unique pour cette pièce
+            // On génère jusqu'à 8 pièces ou jusqu'à épuisement des noms disponibles
+            var attempts = 0
+            while (partsToInsert.size < 8 && attempts < 20) {
+                attempts++
+                val availableNames = frenchPartNames.filter { it !in usedNames }
+                if (availableNames.isEmpty()) break  // Plus de noms disponibles
+                val name = availableNames.random()
+                usedNames.add(name)
                 val reference = generateUniqueReference(autoPartDao)
-                // Sélection d'un nom de pièce aléatoire
-                val name = frenchPartNames.random()
-                // Génération d'un stock aléatoire entre 1 et 20
                 val stock = Random.nextInt(1, 21)
-                // Génération d'un prix aléatoire entre 20.0 et 500.0
-                val price = Random.nextDouble(20.0, 500.0)
-                // La pièce est associée à l'ensemble {brand;model;year} de la voiture
+                // Génère un prix entre 20.0 et 500.0 et arrondi à 2 décimales
+                val rawPrice = Random.nextDouble(20.0, 500.0)
+                val price = (rawPrice * 100).toInt() / 100.0
+                // La configuration principale au format "brand;model;year"
                 val associatedModels = listOf("${car.brand};${car.model};${car.year}")
 
                 val autoPart = AutoPartEntity(
@@ -62,7 +94,7 @@ object AutoPartGenerator {
                 autoPartDao.insertAll(partsToInsert)
                 Log.d(TAG, "Insertion de ${partsToInsert.size} pièces pour la voiture ${car.brand} ${car.model} (${car.year})")
                 partsToInsert.forEach { part ->
-                    Log.d(TAG, "Pièce insérée: ${part.reference} - ${part.name}")
+                    Log.d(TAG, "Pièce insérée: ${part.reference} - ${part.name} - Prix: ${part.price} €")
                 }
             } else {
                 Log.d(TAG, "Aucune nouvelle pièce générée pour la voiture ${car.brand} ${car.model} (${car.year})")
@@ -71,7 +103,7 @@ object AutoPartGenerator {
     }
 
     /**
-     * Génère une référence unique sous la forme "AP-XXXX" en s'assurant qu'elle n'existe pas déjà.
+     * Génère une référence unique sous la forme "AP-XXXX", en s'assurant qu'elle n'existe pas déjà.
      */
     private suspend fun generateUniqueReference(autoPartDao: AutoPartDao): String {
         var reference: String

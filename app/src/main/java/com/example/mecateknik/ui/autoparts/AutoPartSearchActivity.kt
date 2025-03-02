@@ -42,6 +42,7 @@ class AutoPartSearchActivity : AppCompatActivity() {
             }
         }
 
+
         viewModel.autoParts.observe(this) { parts ->
             autoPartAdapter.submitList(parts)
         }
@@ -52,7 +53,18 @@ class AutoPartSearchActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        autoPartAdapter = AutoPartAdapter()
+        autoPartAdapter = AutoPartAdapter { autoPart ->
+            // Crée un bundle avec la référence de la pièce
+            val bundle = Bundle().apply {
+                putString("partReference", autoPart.reference)
+            }
+            // Ouvre le fragment de détails
+            supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, AutoPartDetailFragment().apply { arguments = bundle })
+                .addToBackStack(null)
+                .commit()
+        }
+
         binding.recyclerViewParts.apply {
             layoutManager = LinearLayoutManager(this@AutoPartSearchActivity)
             adapter = autoPartAdapter
